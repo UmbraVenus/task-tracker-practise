@@ -19,27 +19,14 @@
 
 using namespace std;
 
-/*struct Task //task's each
-{
-    int category; //user select which goalID they want
-    int order; //tasks priorty
-    string info; //each tasks info
-};
-
-struct Goal //goal's each
-{
-    int goalID;
-    string goalInfo;
-};*/
-
 map<int, string> Tasks; //task order, and input
 map<string, int> Goals; //goal input and ID
 
 string choice1 = "1. Add a task";
 string choice2 = "2. Add a goal";
 string choice3 = "3. Assign a task to a goal";
-string choice4 = "4. Sort task order";
-string choice5 = "5. Delete task or goal";
+//string choice4 = "4. Sort task order";
+//string choice5 = "5. Delete task or goal";
 string choice6 = "6. Exit the tracker";
 
 //Task newTask(int i, int j, string Input);
@@ -47,15 +34,18 @@ string choice6 = "6. Exit the tracker";
 
 int getChoice();
 void welcome();
+void txtToMap(string); //opens the txt file
+void printMap(map<int, string>, map<string, int>); //writes to txt file, and print in console
 
 int main() {
-    welcome(); //create Tasks/Goals
+    txtToMap("tasks.txt"); //generate Map Goals and Tasks
+    welcome(); //greeting
     auto lastTask = Tasks.rbegin();
     auto lastGoal = Goals.end();
     int i = lastTask->first + 1; //task order, task does not have ID
     int j = lastGoal->second + 1;
-    
     int choice = getChoice(); //user option
+    
     while (choice > 0)
     {
         switch (choice)
@@ -64,7 +54,7 @@ int main() {
             {
                 cout << "\nYou have chosen: "<< choice1 << endl;
                 string taskInput;
-                cout << "Input your Task >> ";
+                cout << "\nInput your Task >> ";
                 getline(cin, taskInput);
                 cout << "\nThe task you have added is: " << taskInput << "\n";
                 cout << "" << endl;
@@ -76,7 +66,7 @@ int main() {
             {
                 cout << "\nYou have chosen: "<< choice2 << endl;
                 string goalInput;
-                cout << "Input your Goal >> ";
+                cout << "\nInput your Goal >> ";
                 getline(cin, goalInput);
                 cout << "\nThe Goal you have added is: { " << goalInput << " }\n";
                 cout << "" << endl;
@@ -90,10 +80,10 @@ int main() {
                 
                 for(auto elem : Tasks) //print out the task for choice
                 {
-                    std::cout << "{ " << elem.first << " == " << elem.second << " }\n";
+                    std::cout << "\n{ " << elem.first << " == " << elem.second << " }\n";
                 }
                 string whichTask;
-                cout << "\nWhat task to assign? Input the task number >> " ;
+                cout << "\nWhat task to assign?" << "\nInput the task number >> ";
                 getline(cin, whichTask); //find out what task to assign
                 int chosenTask = stoi(whichTask);
                 cout << "\nThe task you have chosen is: "<< Tasks[chosenTask] << endl;
@@ -104,7 +94,7 @@ int main() {
                 }
                 string whichGoal;
                 cout << "\nWhat goal would you like to assign this task to?" << endl;
-                cout << "Input goal number >> ";
+                cout << "\nInput goal number >> ";
                 getline(cin, whichGoal); //get the goal to assign to
                 int chosenNumber = stoi(whichGoal);
                 
@@ -113,18 +103,20 @@ int main() {
                 {
                     target++;
                 }
-                Tasks[chosenTask] = Tasks[chosenTask] + target->first;
-                cout << "The Task " << chosenNumber << " has been updated to " << Tasks[chosenNumber] << endl;
+                Tasks[chosenTask] = Tasks[chosenTask] +
+                " {" + target->first + " }";
+                cout << "\nThe Task " << chosenNumber << " has been updated to " << Tasks[chosenNumber] << endl;
+                
                 break;
             }
-            case 4: //sort task order
+            /*case 4: //sort task order
             {
                 cout << "\nYou have chosen: "<< choice4 << endl;
             }
             case 5: //delete an entry
             {
                 cout << "\nYou have chosen: "<< choice5 << endl;
-            }
+            }*/
             case 6: //exit
             {
                 cout << "\nYou have chosen: "<< choice6 << endl;
@@ -148,37 +140,23 @@ int main() {
 
 int getChoice()
 {
-    cout << "\n====== Tasks ======\n" << endl;
+    cout << "\n\n====== Tasks ======\n" << endl;
     
-    FILE *fp = fopen("tasks.txt", "w");//write all tasks to file
-    if (!fp)
-        return -errno;
+    // ========= Writing maps to a txt file ==========
+    printMap(Tasks, Goals);
+    // ======== Writing maps to a txt file ===========
     
-    for(map<int, string>::iterator it = Tasks.begin();
-        it != Tasks.end(); it++)
-    {
-        fprintf(fp, "%i=%s\n", it->first, it->second.c_str());
-    }
-    
-    for(map<string, int>::iterator it = Goals.begin();
-        it != Goals.end(); it++)
-    {
-        fprintf(fp, "%s=%i\n", it->first.c_str(), it->second);
-    }
-    
-    fclose(fp);
-    
-    cout << "\n $ Menu options $ \n"; //menu
+    cout << "\n $ Menu options $ \n"; //menu options
     cout << choice1 << endl;
     cout << choice2 << endl;
     cout << choice3 << endl;
-    cout << choice4 << endl;
-    cout << choice5 << endl;
+    //cout << choice4 << endl;
+    //cout << choice5 << endl;
     cout << choice6 << endl;
 
     string userSelection;
-    cout << "Enter 1-6 to make your selection." << endl;
-    cout << ">> " << endl;
+    cout << "\nEnter 1-6 to make your selection." << endl;
+    cout << "\n>> " << endl;
     getline(cin, userSelection);
     //cin only gets the first component, use getline to get everything
     
@@ -188,24 +166,8 @@ int getChoice()
     return selection;
 }
 
-void welcome()
+void welcome() //error
 {
-    /*
-        
-     */
-    ifstream myfile("tasks.txt");
-    
-    int key;
-    string value;
-    while ( myfile >> key >> value ) {
-        Tasks[key] = value; // input them into the map
-    }
-    while (myfile >> value >> key) {
-        Goals[value] = key;
-    }
-    
-    myfile.close();
-
     cout << "Welcome to Task Tracker :)" << endl;
     chrono::system_clock::time_point today = chrono::system_clock::now();
     time_t tt;
@@ -213,3 +175,58 @@ void welcome()
     cout << "It is " << ctime(&tt) << endl;
 }
 
+void txtToMap(string fileName)//generate maps, and write map down
+{
+    // ========== Creating Maps from Parsing a txt file =========
+    fstream out;
+    out.open(fileName);
+    string line;
+    vector<string> entries;
+    
+    while (getline(out, line)) //input each line into a vector
+    {
+        entries.push_back(line);
+    }
+    
+    string str;
+    vector<string>::iterator it; //declaring iterator
+    for (it = entries.begin(); it < entries.end(); it++)
+    {
+        str = *it;
+        if (isdigit(str[0])) //if 1st elem is int --> tasks
+        {
+            int i = (int)str.front();
+            str.erase(remove_if(str.begin(), str.end(), [](char c) { return isdigit(c); } ), str.end());
+            Tasks.insert(pair<int, string>(i,str));
+        }
+        else // if last elem is int --> Goals
+        {
+            int j = (int)str.back();
+            str.erase(remove_if(str.begin(), str.end(), [](char c) { return isdigit(c); } ), str.end());
+            Goals.insert(pair<string, int>(str, j));
+        }
+    }
+    out.close();
+    // ========== Creating Maps from Parsing a txt file =========
+}
+
+//print the map on screen, not the txt file
+void printMap(map<int,string> taskMap, map<string, int> goalMap)
+{
+    ofstream out ("tasks.txt", ios::out | ios::trunc);
+    
+    for(auto elem : taskMap)
+    {
+        std::cout << "\n(T) " << elem.first << " >> "
+        << elem.second << endl;
+        out << elem.first << " " << elem.second << endl;
+    }
+    
+    for(auto elem : goalMap)
+    {
+        std::cout << "\n[G] { " << elem.first << " } [ "
+        << elem.second << " ]\n";
+        out << elem.first << " " << elem.second << endl;
+    }
+    out.close();
+}
