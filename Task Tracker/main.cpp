@@ -57,7 +57,6 @@ int main() {
                 cout << "\nInput your Task >> ";
                 getline(cin, taskInput);
                 cout << "\nThe task you have added is: " << taskInput << "\n";
-                cout << "" << endl;
                 Tasks.insert(pair<int, string>(i,taskInput));
                 i++;
                 break;
@@ -69,7 +68,6 @@ int main() {
                 cout << "\nInput your Goal >> ";
                 getline(cin, goalInput);
                 cout << "\nThe Goal you have added is: { " << goalInput << " }\n";
-                cout << "" << endl;
                 Goals.insert(pair<string,int>(goalInput,j));
                 j++;
                 break;
@@ -83,7 +81,7 @@ int main() {
                     std::cout << "\n{ " << elem.first << " == " << elem.second << " }\n";
                 }
                 string whichTask;
-                cout << "\nWhat task to assign?" << "\nInput the task number >> ";
+                cout << "\nWhat task to assign?\n" << "\nInput the task number >> ";
                 getline(cin, whichTask); //find out what task to assign
                 int chosenTask = stoi(whichTask);
                 cout << "\nThe task you have chosen is: "<< Tasks[chosenTask] << endl;
@@ -93,7 +91,7 @@ int main() {
                     std::cout << "\n{ " << elem.first<< " == " << elem.second << " }";
                 }
                 string whichGoal;
-                cout << "\nWhat goal would you like to assign this task to?" << endl;
+                cout << "\nWhat goal would you like to assign this task to?\n" << endl;
                 cout << "\nInput goal number >> ";
                 getline(cin, whichGoal); //get the goal to assign to
                 int chosenNumber = stoi(whichGoal);
@@ -103,9 +101,10 @@ int main() {
                 {
                     target++;
                 }
+                
                 Tasks[chosenTask] = Tasks[chosenTask] +
-                " {" + target->first + " }";
-                cout << "\nThe Task " << chosenNumber << " has been updated to " << Tasks[chosenNumber] << endl;
+                " { " + target->first + " }";
+                cout << "\nThe Task " << chosenNumber << " has been updated to " << Tasks[chosenTask] << endl;
                 
                 break;
             }
@@ -140,13 +139,13 @@ int main() {
 
 int getChoice()
 {
-    cout << "\n\n====== Tasks ======\n" << endl;
+    cout << "\n====== Tasks ======\n" << endl;
     
     // ========= Writing maps to a txt file ==========
     printMap(Tasks, Goals);
     // ======== Writing maps to a txt file ===========
     
-    cout << "\n $ Menu options $ \n"; //menu options
+    cout << "\n $$$ Menu options $$$ \n"; //menu options
     cout << choice1 << endl;
     cout << choice2 << endl;
     cout << choice3 << endl;
@@ -155,7 +154,7 @@ int getChoice()
     cout << choice6 << endl;
 
     string userSelection;
-    cout << "\nEnter 1-6 to make your selection." << endl;
+    cout << "\nEnter 1-6 to make your selection.\n" << endl;
     cout << "\n>> " << endl;
     getline(cin, userSelection);
     //cin only gets the first component, use getline to get everything
@@ -175,7 +174,7 @@ void welcome() //error
     cout << "It is " << ctime(&tt) << endl;
 }
 
-void txtToMap(string fileName)//generate maps, and write map down
+void txtToMap(string fileName)//generate maps
 {
     // ========== Creating Maps from Parsing a txt file =========
     fstream out;
@@ -193,7 +192,7 @@ void txtToMap(string fileName)//generate maps, and write map down
     for (it = entries.begin(); it < entries.end(); it++)
     {
         str = *it;
-        if (isdigit(str[0])) //if 1st elem is int --> tasks
+        if (isdigit(str.front())) //if 1st elem is int --> tasks
         {
             int i = (int)str.front();
             str.erase(remove_if(str.begin(), str.end(), [](char c) { return isdigit(c); } ), str.end());
@@ -203,14 +202,14 @@ void txtToMap(string fileName)//generate maps, and write map down
         {
             int j = (int)str.back();
             str.erase(remove_if(str.begin(), str.end(), [](char c) { return isdigit(c); } ), str.end());
-            Goals.insert(pair<string, int>(str, j));
+            Goals.insert(pair<string, int>(str,j));
         }
     }
     out.close();
     // ========== Creating Maps from Parsing a txt file =========
 }
 
-//print the map on screen, not the txt file
+//print the map
 void printMap(map<int,string> taskMap, map<string, int> goalMap)
 {
     ofstream out ("tasks.txt", ios::out | ios::trunc);
