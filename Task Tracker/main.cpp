@@ -52,47 +52,47 @@ int main() {
         {
             case 1: //add a task
             {
-                cout << "\nYou have chosen: "<< choice1 << endl;
+                cout << "\n ==== You have chosen: "<< choice1 << endl;
                 string taskInput;
-                cout << "\nInput your Task >> ";
+                cout << " ==== Input your Task >> ";
                 getline(cin, taskInput);
-                cout << "\nThe task you have added is: " << taskInput << "\n";
+                cout << "\n ==== The task you have added is: " << taskInput << "\n";
                 Tasks.insert(pair<int, string>(i,taskInput));
                 i++;
                 break;
             }
             case 2: // add a goal
             {
-                cout << "\nYou have chosen: "<< choice2 << endl;
+                cout << "\n ==== You have chosen: "<< choice2 << endl;
                 string goalInput;
-                cout << "\nInput your Goal >> ";
+                cout << " ==== Input your Goal >> ";
                 getline(cin, goalInput);
-                cout << "\nThe Goal you have added is: { " << goalInput << " }\n";
+                cout << "\n ==== The Goal you have added is: { " << goalInput << " }\n";
                 Goals.insert(pair<string,int>(goalInput,j));
                 j++;
                 break;
             }
             case 3: //assign a task to a goal //might be this part
             {
-                cout << "\nYou have chosen: "<< choice3 << endl;
+                cout << "\n ==== You have chosen: "<< choice3 << endl;
                 
                 for(auto elem : Tasks) //print out the task for choice
                 {
-                    std::cout << "\n{ " << elem.first << " == " << elem.second << " }\n";
+                    std::cout << "\nTasks = [ " << elem.first << " == " << elem.second << " ]";
                 }
                 string whichTask;
-                cout << "\nWhat task to assign?\n" << "\nInput the task number >> ";
+                cout << "\n\n ==== What task to assign? ==== \n" << "\n ==== Input the task number >> ";
                 getline(cin, whichTask); //find out what task to assign
                 int chosenTask = stoi(whichTask);
-                cout << "\nThe task you have chosen is: "<< Tasks[chosenTask] << endl;
+                cout << "\n ==== The task you have chosen is: "<< Tasks[chosenTask] << endl;
                 
                 for(auto elem : Goals) //print out the goal for choice
                 {
-                    std::cout << "\n{ " << elem.first<< " == " << elem.second << " }";
+                    std::cout << "\nGoals = { " << elem.first<< " == " << elem.second << " }";
                 }
                 string whichGoal;
-                cout << "\nWhat goal would you like to assign this task to?\n" << endl;
-                cout << "\nInput goal number >> ";
+                cout << "\n\n ==== What goal would you like to assign this task to? ==== \n" << endl;
+                cout << "\n ==== Input goal number >> ";
                 getline(cin, whichGoal); //get the goal to assign to
                 int chosenNumber = stoi(whichGoal);
                 
@@ -104,7 +104,7 @@ int main() {
                 
                 Tasks[chosenTask] = Tasks[chosenTask] +
                 " { " + target->first + " }";
-                cout << "\nThe Task " << chosenNumber << " has been updated to " << Tasks[chosenTask] << endl;
+                cout << "\n ==== The Task " << chosenNumber << " has been updated to " << Tasks[chosenTask] << endl;
                 
                 break;
             }
@@ -118,9 +118,9 @@ int main() {
             }*/
             case 6: //exit
             {
-                cout << "\nYou have chosen: "<< choice6 << endl;
-                cout << "\nThank you so much for using the Task Tracker!" << endl;
-                cout << "\nHave a good one! :)\n" << endl;
+                cout << "\n ==== You have chosen: "<< choice6 << endl;
+                cout << "\n ==== Thank you so much for using the Task Tracker! ==== " << endl;
+                cout << "\n ==== Have a good one! :) ====\n" << endl;
                 exit(1);
             }
             default: //input a positive integer outside of 1-6
@@ -139,11 +139,12 @@ int main() {
 
 int getChoice()
 {
-    cout << "\n====== Tasks ======\n" << endl;
+    cout << " -------------- TASKS --------------- " << endl;
     
     // ========= Writing maps to a txt file ==========
     printMap(Tasks, Goals);
     // ======== Writing maps to a txt file ===========
+    cout << "\n-------------- TASKS ---------------\n" << endl;
     
     cout << "\n $$$ Menu options $$$ \n"; //menu options
     cout << choice1 << endl;
@@ -154,8 +155,8 @@ int getChoice()
     cout << choice6 << endl;
 
     string userSelection;
-    cout << "\nEnter 1-6 to make your selection.\n" << endl;
-    cout << "\n>> " << endl;
+    cout << "\n ==== Enter 1-6 to make your selection ==== " << endl;
+    cout << "\n ==== >> " << endl;
     getline(cin, userSelection);
     //cin only gets the first component, use getline to get everything
     
@@ -167,11 +168,11 @@ int getChoice()
 
 void welcome() //error
 {
-    cout << "Welcome to Task Tracker :)" << endl;
+    cout << "======== Welcome to Task Tracker :) ======== " << endl;
     chrono::system_clock::time_point today = chrono::system_clock::now();
     time_t tt;
     tt = chrono::system_clock::to_time_t(today);
-    cout << "It is " << ctime(&tt) << endl;
+    cout << "==== It is " << ctime(&tt) << endl;
 }
 
 void txtToMap(string fileName)//generate maps
@@ -217,15 +218,15 @@ void printMap(map<int,string> taskMap, map<string, int> goalMap)
     for(auto elem : taskMap)
     {
         std::cout << "\n(T) " << elem.first << " >> "
-        << elem.second << endl;
-        out << elem.first << " " << elem.second << endl;
+        << elem.second ;
+        out << elem.first << elem.second << endl;
     }
     
     for(auto elem : goalMap)
     {
         std::cout << "\n[G] { " << elem.first << " } [ "
-        << elem.second << " ]\n";
-        out << elem.first << " " << elem.second << endl;
+        << elem.second << " ]";
+        out << elem.first << elem.second << endl;
     }
     out.close();
 }
