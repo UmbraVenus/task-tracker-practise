@@ -139,14 +139,12 @@ int main() {
 
 int getChoice()
 {
-    cout << " -------------- TASKS --------------- " << endl;
-    
+    cout << " ////// TASKS ////// " << endl;
     // ========= Writing maps to a txt file ==========
     printMap(Tasks, Goals);
     // ======== Writing maps to a txt file ===========
-    cout << "\n-------------- TASKS ---------------\n" << endl;
     
-    cout << "\n $$$ Menu options $$$ \n"; //menu options
+    cout << "\n ====== $$$ Menu options $$$ ====== \n"; //menu options
     cout << choice1 << endl;
     cout << choice2 << endl;
     cout << choice3 << endl;
@@ -156,7 +154,7 @@ int getChoice()
 
     string userSelection;
     cout << "\n ==== Enter 1-6 to make your selection ==== " << endl;
-    cout << "\n ==== >> " << endl;
+    cout << " ==== >> " << endl;
     getline(cin, userSelection);
     //cin only gets the first component, use getline to get everything
     
@@ -168,11 +166,11 @@ int getChoice()
 
 void welcome() //error
 {
-    cout << "======== Welcome to Task Tracker :) ======== " << endl;
+    cout << " ====== Welcome to Task Tracker :) ====== " << endl;
     chrono::system_clock::time_point today = chrono::system_clock::now();
     time_t tt;
     tt = chrono::system_clock::to_time_t(today);
-    cout << "==== It is " << ctime(&tt) << endl;
+    cout << " $$$ It is " << ctime(&tt) <<endl;
 }
 
 void txtToMap(string fileName)//generate maps
