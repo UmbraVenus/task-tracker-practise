@@ -72,7 +72,7 @@ int main() {
                 j++;
                 break;
             }
-            case 3: //assign a task to a goal
+            case 3: //assign a task to a goal //might be this part
             {
                 cout << "\nYou have chosen: "<< choice3 << endl;
                 
